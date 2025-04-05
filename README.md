@@ -38,3 +38,7 @@ resume-analyzer/
 ├── requirements.txt
 └── resumes/
     └── sample_resume.pdf
+
+DATABASE MANAGEMENT: postgreSQL
+pgAdmin 4
+owner: resume_db
