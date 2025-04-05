@@ -1,4 +1,6 @@
-flask
-scikit-learn
-nltk
+Flask
+flask-cors
+psycopg2
+docx2txt
 PyPDF2
+spacy
