@@ -2,3 +2,5 @@ flask
 scikit-learn
 nltk
 PyPDF2
+spacy
+flask-cors
