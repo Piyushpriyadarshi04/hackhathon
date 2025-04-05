@@ -1,83 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Resume Analyzer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Analyser</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Checker</title>
   <style>
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-top: 4px solid #3b82f6;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      animation: spin 0.9s linear infinite;
-      margin: 1rem auto;
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+      background-color: #c0c0e2;
+      margin: 0;
+      padding: 0;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+
+    .container {
+      width: 90%;
+      margin: auto;
+      overflow: hidden;
+    }
+
+    header {
+      background: #030233;
+      color: #ffffff;
+      padding-top: 40px;
+      min-height: 80px;
+      border-bottom: #0c0c0c 3px solid;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 25px;
+    }
+
+    #showcase {
+      min-height: 400px;
+      background: url('showcase.jpg') no-repeat 0 -400px;
+      text-align: center;
+      color: #000000;
+    }
+
+    #showcase h1 {
+      margin-top: 100px;
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    #showcase p {
+      font-size: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      color: #fffefe;
+      background: #070035;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+
+    .features {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .feature {
+      flex: 1;
+      padding: 20px;
+      background: #ffffff;
+      margin: 10px;
+      text-align: center;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #333;
+      color: #fff;
+      margin-top: 20px;
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center font-sans px-4">
-  <div class="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-xl">
-    <h1 class="text-3xl font-bold text-center text-indigo-600 mb-6">🚀 AI Resume Analyzer</h1>
-    
-    <form id="upload-form" enctype="multipart/form-data" class="space-y-4">
-      <input type="file" name="resume" accept="application/pdf" required 
-             class="block w-full text-sm border rounded-lg p-3 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
-      
-      <button type="submit" 
-              class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-lg w-full text-lg font-semibold transition-all duration-300 ease-in-out">
-        🔍 Analyze Resume
-      </button>
-    </form>
 
-    <div id="loading" class="hidden text-center mt-6">
-      <div class="spinner"></div>
-      <p class="text-gray-600 mt-2">Analyzing resume... please wait.</p>
+<body>
+  <header>
+    <div class="container">
+      <h1>Resume Analyser</h1>
+      <a href="#" class="signin-button">Sign In</a>
+
+      <nav class="navbar flex flex-align-center font-body">
+        <ul class="nav-menu flex">
+          <li class="dropdown cursor-pointer">
+            <span class="nav-link font-weight-500">Resume ▾</span>
+            <div class="dropdown-content">
+              <div class="dropdown-section">
+                <h4>Resume Templates</h4>
+                <a href="#">Creative Templates</a>
+                <a href="#">Modern Templates</a>
+                <a href="#">Simple Templates</a>
+              </div>
+              <div class="dropdown-section">
+                <h4>Resume Writing Guides</h4>
+                <a href="#">Writing Resume</a>
+                <a href="#">Resume Summary</a>
+                <a href="#">Choosing Resume Format</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <div id="result" class="mt-8 hidden bg-gray-100 p-6 rounded-lg shadow-inner">
-      <h2 class="text-xl font-bold text-green-600 mb-2">✅ Analysis Result</h2>
-      <p><strong>Score:</strong> <span id="score" class="text-blue-600 font-semibold"></span></p>
-      <p class="mt-1"><strong>Skills Detected:</strong></p>
-      <ul id="skills" class="list-disc list-inside text-sm text-gray-800 mt-1"></ul>
+  <div id="signin-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Sign In</h2>
+      <form>
+        <input type="text" placeholder="Username" required><br><br>
+        <input type="password" placeholder="Password" required><br><br>
+        <button type="submit">Log In</button>
+      </form>
     </div>
   </div>
 
+
+  <section id="showcase">
+    <div class="dots-pattern"></div>
+    <div class="blur-box">
+      <h1>Is your resume good enough?</h1>
+      <p>
+        A free and fast AI resume checker performing crucial checks to ensure your resume is ready to get you
+        interview callbacks.
+      </p>
+
+      <!-- Upload Form -->
+      <form id="resumeUploadForm">
+        <label for="resumeUpload" class="upload-btn">Upload Your Resume</label>
+        <input type="file" id="resumeUpload" accept=".pdf" hidden />
+        <p id="fileMsg" class="file-message"></p>
+      </form>
+
+      <div class="loading-container">
+        <div class="loading-bar"></div>
+      </div>
+
+    </div>
+
+
+
+  </section>
+
+
+  <section class="container features">
+
+    <div class="feature">
+      <img src="https://cdn-icons-png.flaticon.com/512/906/906175.png" alt="ATS Icon" class="feature-icon">
+      <h2>ATS Compatibility</h2>
+      <p>ATS-optimized. Correctly parsed. Keyword smart.</p>
+    </div>
+
+    <div class="feature">
+      <img src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png" alt="ATS Icon" class="feature-icon">
+      <h2>Content Analysis</h2>
+      <p>Fix keyword overload with clean, readable phrasing.</p>
+    </div>
+
+    <div class="feature">
+      <img src="https://cdn-icons-png.flaticon.com/512/1484/1484875.png" alt="ATS Icon" class="feature-icon">
+      <h2>Skills Suggestion</h2>
+      <p>Receive suggestions on hard and soft skills relevant to the job.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Resume Checker &copy; 2025</p>
+  </footer>
+
   <script>
-    const form = document.getElementById("upload-form");
-    const loading = document.getElementById("loading");
-    const resultBox = document.getElementById("result");
-    const scoreEl = document.getElementById("score");
-    const skillsEl = document.getElementById("skills");
+    const modal = document.getElementById('signin-modal');
+    const btn = document.querySelector('.signin-button');
+    const closeBtn = document.querySelector('.close');
 
-    form.addEventListener("submit", async (e) => {
+    btn.onclick = function (e) {
       e.preventDefault();
-      const formData = new FormData(form);
-      loading.classList.remove("hidden");
-      resultBox.classList.add("hidden");
+      modal.style.display = "block";
+    }
 
-      try {
-        const response = await fetch("/analyze", {
-          method: "POST",
-          body: formData
-        });
+    closeBtn.onclick = function () {
+      modal.style.display = "none";
+    }
 
-        const data = await response.json();
-        loading.classList.add("hidden");
-        resultBox.classList.remove("hidden");
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 
-        scoreEl.textContent = data.score + " / 100";
-        skillsEl.innerHTML = data.skills.length
-          ? data.skills.map(skill => `<li>${skill}</li>`).join("")
-          : "<li>No matching skills found.</li>";
-      } catch (err) {
-        loading.innerHTML = "<p class='text-red-600 mt-2'>⚠️ Error analyzing resume.</p>";
+  <script>
+    const fileInput = document.getElementById("resumeUpload");
+    const fileMsg = document.getElementById("fileMsg");
+
+    fileInput.addEventListener("change", function () {
+      const file = fileInput.files[0];
+      if (file) {
+        if (file.type !== "application/pdf") {
+          fileMsg.textContent = "Only PDF files are allowed.";
+          fileInput.value = ""; // Clear the input
+        } else if (file.size > 2 * 1024 * 1024) {
+          fileMsg.textContent = "File size should not exceed 2MB.";
+          fileInput.value = "";
+        } else {
+          fileMsg.style.color = "#2ecc71"; // green
+          fileMsg.textContent = `Uploaded: ${file.name}`;
+        }
       }
     });
   </script>
+
+
+
+
+
 </body>
+
 </html>
