@@ -30,4 +30,11 @@ An AI-powered resume analyzer that extracts key skills from uploaded resumes and
 ---
 
 ## 📁 Folder Structure
-
+resume-analyzer/
+│
+├── app.py
+├── analyzer.py
+├── utils.py
+├── requirements.txt
+└── resumes/
+    └── sample_resume.pdf
